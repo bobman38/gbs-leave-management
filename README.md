@@ -72,5 +72,5 @@ href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
 Attribution-ShareAlike 4.0 International License</a>.
 
 The application have been developed by the company
-[GB&Smith](https://gbandsmith.com) a software editor for internal use initially.
+[GB&Smith](http://gbandsmith.com) a software editor for internal use initially.
 It has been pushed with a open license on November 2017.
