@@ -1,0 +1,24 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>EmployeeLeave creation</h1>
+    {#<p>Holiday balance as of today : <strong>{{ gbs_leave_holiday.getHolidayBalanceAsOfToday(app.user)}}</strong>,
+        Sick balance (if applicable) : <strong>{{ gbs_leave_holiday.getSickBalance(app.user)}}</strong></p>#}
+    {{ form_start(form) }}
+        {{ form_row(form.type) }}
+        {{ form_row(form.start) }}
+        {{ form_row(form.end) }}
+        <div id="partday">
+            {{ form_row(form.partday) }}
+        </div>
+    {{ form_end(form) }}
+
+    <hr>
+    <div class="btn-group">
+      <a type="button" href="{{ path('leave') }}" class="btn btn-default">Back to list</a>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+{% include 'GbsLeaveBundle:EmployeeLeave:form_js.html.twig' %}
+{% endblock %}

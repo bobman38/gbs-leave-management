@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>User</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Dn</th>
+                <td>{{ entity.dn }}</td>
+            </tr>
+            <tr>
+                <th>Manager</th>
+                <td>{{ entity.manager }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="btn-group">
+      <a type="button" href="{{ path('user') }}" class="btn btn-default">Back to list</a>
+      <a type="button" href="{{ path('user_edit', { 'id': entity.id }) }}" class="btn btn-default">Edit</a>
+    </div>
+{% endblock %}

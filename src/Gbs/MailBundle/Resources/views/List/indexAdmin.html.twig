@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<table class="table">
+    <thead>
+        <tr><th>User</th><th>Mailing Lists</th></tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{user}}</td>
+                <td>{% for ml in usersML[user.email] %}{{ml}}, {% endfor %}</td>
+    </td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

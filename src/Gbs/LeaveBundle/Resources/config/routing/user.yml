@@ -1,0 +1,32 @@
+user:
+    path:     /
+    defaults: { _controller: "GbsLeaveBundle:User:index" }
+
+user_workingdays:
+    path:     /workingdays
+    defaults: { _controller: "GbsLeaveBundle:User:workingDays" }
+
+user_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "GbsLeaveBundle:User:edit" }
+
+user_update:
+    path:     /{id}/update
+    defaults: { _controller: "GbsLeaveBundle:User:update" }
+    requirements: { _method: post|put }
+
+user_import:
+    path:     /import
+    defaults: { _controller: "GbsLeaveBundle:User:import" }
+
+user_holiday_add:
+    path:     /{id}/holiday/add
+    defaults: { _controller: "GbsLeaveBundle:User:holidayAdd" }
+
+user_holiday_delete:
+    path:     /holiday/delete/{id}
+    defaults: { _controller: "GbsLeaveBundle:User:holidayDelete" }
+
+user_save_tr:
+    path:   /savetr/{delta}
+    defaults: { _controller: "GbsLeaveBundle:Tr:saveTrToDatabase" }

@@ -1,0 +1,29 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name:     symfony
+    database_user:     root
+    database_password: ~
+
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
+
+    locale:            en
+    secret:            ThisTokenIsNotSoSecretChangeIt
+
+    debug_toolbar:          true
+    debug_redirects:        false
+    use_assetic_controller: true
+
+    ovh_manager_url: "https://www.ovh.com/soapi/soapi-re-1.63.wsdl"
+    ovh_manager_user: myovhuser
+    ovh_manager_password: myovhpassword
+    ovh_manager_domain: mydomain.com
+    ovh_api_appkey: myovhAPIkey
+    ovh_api_appsecret: myovhAPIsecret
+    ovh_api_endpoint: "ovh-eu"
+
+    url: "https://mywebsite

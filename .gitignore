@@ -1,0 +1,9 @@
+/app/config/parameters.yml
+/app/cache/
+/app/logs/
+/app/bootstrap.php.cache
+/bin/
+/vendor/
+/web/bundles/
+*.swp
+*~

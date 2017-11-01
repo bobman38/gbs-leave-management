@@ -1,0 +1,40 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+        <h1>User [{{entity.fullName}}] edition</h1>
+        <div class="col-md-6">
+            {{ form(edit_form) }}
+            <hr>
+            <p>
+            Current Holiday Balance As Of Today: <strong>{{balanceasOfToday}}</strong> (<strong>{{balance}}</strong> with future leaves)
+        </div>
+        <div class="col-md-6">
+            <div class="well">
+                <h1>Add an holiday/sick credit</h1>
+                {{ form(holiday_form) }}
+            </div>
+            <h1>Holiday/Sick Credit list</h1>
+            <table class="table">
+                <thead>
+                    <tr><th>Created</th><th>Type</th><th>Days</th><th>Comments</th></tr>
+                </thead>
+                <tbody>
+                    {% for holidaycredit in holidaycredits %}
+                        <tr>
+                            <td>{{holidaycredit.created|date('Y-m-d H:i')}}</td>
+                            <td>{{holidaycredit.typeName}}</td>
+                            <td>{{holidaycredit.days}}</td><td>{{holidaycredit.comment}}
+                            <a href="{{ path('user_holiday_delete', {'id': holidaycredit.id})}}" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+                </td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+    <div class="btn-group">
+      <a type="button" href="{{ path('user') }}" class="btn btn-default">Back to list</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,69 @@
+parameters:
+#    gbs_leave.example.class: Gbs\LeaveBundle\Example
+
+services:
+#    gbs_leave.example:
+#        class: %gbs_leave.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    #gbs_leave.security.user.provider:
+    #    class: Gbs\LeaveBundle\Security\LdapUserProvider
+    #    arguments: [@imag_ldap.ldap_manager, @fos_user.user_manager, %imag_ldap.authentication.bind_username_before%, %imag_ldap.model.user_class%]
+
+    #gbs_leave.security.ldap.connection:
+    #    class: IMAG\LdapBundle\Manager\LdapConnection
+    #    arguments: [%imag_ldap.ldap_connection.params%, @logger]
+
+    gbs_leave.holiday:
+        class: Gbs\LeaveBundle\Service\HolidayService
+        arguments: [@doctrine.orm.entity_manager]
+
+    sonata.country:
+        class: Gbs\LeaveBundle\Admin\CountryAdmin
+        arguments: [~, Gbs\LeaveBundle\Entity\Country, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Leaves, label: Country}
+
+    sonata.holiday:
+        class: Gbs\LeaveBundle\Admin\PublicHolidayAdmin
+        arguments: [~, Gbs\LeaveBundle\Entity\PublicHoliday, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Leaves, label: PublicHoliday}
+
+    sonata.leave:
+        class: Gbs\LeaveBundle\Admin\EmployeeLeaveAdmin
+        arguments: [~, Gbs\LeaveBundle\Entity\EmployeeLeave, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Leaves, label: EmployeeLeave}
+        calls:
+            - [setSecurityContext, [@security.context]]
+            - [setHolidayService, [@gbs_leave.holiday]]
+
+    sonata.tr:
+        class: Gbs\LeaveBundle\Admin\TrGivenAdmin
+        arguments: [~, Gbs\LeaveBundle\Entity\TrGiven, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Leaves, label: TrGiven}
+
+    sonata.user:
+        class: Gbs\LeaveBundle\Admin\UserAdmin
+        arguments: [~, Gbs\LeaveBundle\Entity\User, GbsLeaveBundle:UserAdmin]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Admin, label: User}
+
+    sonata.department:
+        class: Gbs\LeaveBundle\Admin\DepartmentAdmin
+        arguments: [~, Gbs\LeaveBundle\Entity\Department, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Admin, label: Department}
+
+    sonata.company:
+        class: Gbs\LeaveBundle\Admin\CompanyAdmin
+        arguments: [~, Gbs\LeaveBundle\Entity\Company, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Admin, label: Company }
+
+    sonata.site:
+        class: Gbs\LeaveBundle\Admin\SiteAdmin
+        arguments: [~, Gbs\LeaveBundle\Entity\Site, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Admin, label: Site }

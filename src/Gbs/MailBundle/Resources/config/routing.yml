@@ -1,0 +1,23 @@
+mail_responder:
+    path:     /mail/responder
+    defaults: { _controller: GbsMailBundle:Responder:index }
+
+mail_responder_set:
+    path:     /mail/responder/set
+    defaults: { _controller: GbsMailBundle:Responder:set }
+
+mail_forwarder:
+    path:     /mail/forwarder
+    defaults: { _controller: GbsMailBundle:Forwarder:index }
+
+mail_forwarder_set:
+    path:     /mail/forwarder/set
+    defaults: { _controller: GbsMailBundle:Forwarder:set }
+
+mail_list:
+    path:     /mail/list
+    defaults: { _controller: GbsMailBundle:List:index }
+
+mail_list_admin:
+    path:     /mail/list/admin
+    defaults: { _controller: GbsMailBundle:List:indexAdmin }

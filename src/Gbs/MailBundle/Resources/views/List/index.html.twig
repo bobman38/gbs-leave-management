@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<p>Here is the list of the mailing list you are currently member of. You can ask your sysadmin if you want to change something !</p>
+<ul>
+    {% for list in mylists %}
+    <li>{{list}}</li>
+    {% endfor %}
+</ul>
+
+<p>You are not member of following lists:</p>
+<ul>
+    {% for list in notMylists %}
+    <li>{{list}}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

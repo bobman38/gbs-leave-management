@@ -1,0 +1,135 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+<link rel='stylesheet' type='text/css' href='{{asset('dhx/dhtmlxscheduler.css')}}'>
+{% endblock %}
+
+{% block body %}
+<style type="text/css" media="screen">
+    html, body{
+
+        height:100%;
+        overflow:hidden;
+    }
+    .one_line{
+        white-space:nowrap;
+        overflow:hidden;
+        padding-top:5px; padding-left:5px;
+        text-align:left !important;
+    }
+    .dhx_cal_event_line {
+        padding-left: 3px;
+        padding-right: 7px;
+    }
+    .endofweek {
+         background-color: #b8b8b8;
+      }
+</style>
+{% endblock %}
+
+{%block planning%}
+<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+        <div class="dhx_cal_navline">
+            <div class="dhx_cal_prev_button">&nbsp;</div>
+            <div class="dhx_cal_next_button">&nbsp;</div>
+            <div class="dhx_cal_today_button"></div>
+            <div class="dhx_cal_date"></div>
+        </div>
+        <div class="dhx_cal_header">
+        </div>
+        <div class="dhx_cal_data">
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+
+<script src='{{asset('dhx/dhtmlxscheduler.js')}}' type="text/javascript" charset="utf-8"></script>
+    <script src='{{asset('dhx/ext/dhtmlxscheduler_timeline.js')}}' type="text/javascript" charset="utf-8"></script>
+    <script src='{{asset('dhx/ext/dhtmlxscheduler_treetimeline.js')}}' type="text/javascript" charset="utf-8"></script>
+    <script src='{{asset('dhx/ext/dhtmlxscheduler_multisection.js')}}' type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+ $(function() {
+
+        scheduler.locale.labels.timeline_tab = "Timeline";
+        scheduler.locale.labels.section_custom="Section";
+        scheduler.config.readonly = true;
+        scheduler.config.multisection = true;
+        scheduler.config.xml_date="%Y-%m-%d %H:%i";
+
+
+        var users = {{ users|json_encode(constant('JSON_PRETTY_PRINT'))|raw }};
+
+        {% if type=='normal' %}
+        scheduler.createTimelineView({
+            section_autoheight: false,
+            name:   "timeline",
+            x_unit: "day",
+            x_date: "%m-%d",
+            x_step:   1,
+            x_size:   30,
+            x_start:  0,
+            x_length: 15,
+            y_unit: users,
+            y_property: "section_id",
+            render: "tree",
+            folder_dy:20,
+            dy:20,
+            second_scale:{
+                    x_unit: "month", // unit which should be used for second scale
+                    x_date: "%F %Y" // date format which should be used for second scale, "July 01"
+                }
+                });
+        {% else %}
+        scheduler.createTimelineView({
+            section_autoheight: false,
+            name:   "timeline",
+            x_unit: "day",
+            x_date: "%m-%d",
+            x_step:   1,
+            x_size:   35,
+            x_start:  0,
+            x_length: 30,
+            y_unit: users,
+            y_property: "section_id",
+            render: "tree",
+            folder_dy:20,
+            dy:20,
+            second_scale:{
+                    x_unit: "month", // unit which should be used for second scale
+                    x_date: "%F %Y" // date format which should be used for second scale, "July 01"
+                }
+                });
+        {% endif %}
+
+        scheduler.templates.timeline_cell_class = function(evs, date, section) {
+            if(date.getDay() == 6 || date.getDay() == 0) {
+                return 'endofweek';
+            }
+            else {
+                return '';
+            }
+        };
+
+        //===============
+        //Data loading
+        //===============
+        scheduler.config.lightbox.sections=[
+            {name:"description", height:130, map_to:"text", type:"textarea" , focus:true},
+            {name:"custom", height:23, type:"timeline", options:null , map_to:"section_id" }, //type should be the same as name of the tab
+            {name:"time", height:72, type:"time", map_to:"auto"}
+        ]
+        {% if type=='normal' %}
+            scheduler.init('scheduler_here',new Date(),"timeline");
+        {% else %}
+            var date = new Date();
+            date.setDate(1);
+            date.setMonth(date.getMonth()-1);
+            scheduler.init('scheduler_here', date, "timeline");
+        {% endif %}
+        scheduler.parse({{ entities|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}, "json");
+});
+
+</script>
+{% endblock %}

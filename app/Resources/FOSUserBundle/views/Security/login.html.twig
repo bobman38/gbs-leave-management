@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    {% if error %}
+        <div>{{ error.message }}</div>
+    {% endif %}
+    <h1>Login to enter magic world</h1>
+    <form role="form" action="{{ path('fos_user_security_check') }}" method="post">
+            <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" placeholder="username"type="text" id="username" name="_username" value="{{ last_username }}" />
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" placeholder="password" type="password" id="password" name="_password" />
+        </div>
+
+        {#
+        If you want to control the URL the user is redirected to on success (more details below)
+        <input type="hidden" name="_target_path" value="/account" />
+        #}
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        <button type="submit" name="login" class="btn btn-default">Submit</button>
+    </form>
+
+
+{% endblock %}

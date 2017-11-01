@@ -1,0 +1,80 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>EmployeeLeave list</h1>
+    <p id="solde" style="display: none;">Holiday balance as of today : <strong>{{ gbs_leave_holiday.getHolidayBalanceAsOfToday(app.user)}}</strong>, (<i>{{ gbs_leave_holiday.getHolidayBalance(app.user)}}</i> with future leaves)
+        Sick balance (if applicable) : <strong>{{ gbs_leave_holiday.getSickBalance(app.user)}}</strong></p>
+    {% if app.request.attributes.get('_route') == 'leave_validation' %}
+    <p>
+        <a class="btn btn-default" href="{{path('leave_acceptall', {'type': 0})}}" role="button">Accept All <i>Paid Leaves</i></a>
+        <a class="btn btn-default" href="{{path('leave_acceptall', {'type': 7})}}" role="button">Accept All <i>Travelling</i></a>
+    </p>
+    <p><strong>Caution: </strong>The button are working only for leaves on employee that you are direcly
+        manager (N+1) ; but the list below is showing you also employee under your employees (N+2).</p>
+    {% endif %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>User</th>
+                <th>Type</th>
+                <th>State</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>PartDay</th>
+                <th>Days</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                {% set days = gbs_leave_holiday.getLeaveDays(entity) %}
+                <td><a href="{{ path('leave_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.user }}</td>
+                <td>{{ entity.typeName }}</td>
+                <td>{{ entity.stateName }}</td>
+                <td>{% if entity.start %}{{ entity.start|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if entity.end %}{{ entity.end|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ entity.partdayName }}</td>
+                {% if entity.days != days %}
+                <td class="danger"><strong>{{ entity.days }}</strong> ({{days}} computed)</td>
+                {% else %}
+                <td><strong>{{ entity.days }}</strong></td>
+                {% endif %}
+                <td>
+                <div class="btn-group">
+                  <a class="btn btn-default" href="{{ path('leave_show', { 'id': entity.id }) }}">show</a>
+                  {% if entity.canEdit(app.security) %}
+                    <a class="btn btn-default" href="{{ path('leave_edit', { 'id': entity.id }) }}">edit</a>
+                  {% endif %}
+                  {% if entity.canAskForValidation(app.security) %}
+                    <a class="btn btn-default" href="{{ path('leave_askforvalidation', { 'id': entity.id }) }}">ask for validation</a>
+                  {% endif %}
+                </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}
+
+    {% block javascripts %}
+    <<script type="text/javascript">
+    //Haut, haut, bas, bas, gauche, droite, gauche, droite, B, A
+    var k = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65],
+    n = 0;
+    $(document).keydown(function (e) {
+    if (e.keyCode === k[n++]) {
+        if (n === k.length) {
+            $('#solde').show(400);
+            n = 0;
+            return false;
+        }
+    }
+    else {
+        n = 0;
+    }
+    });
+    </script>
+    {% endblock %}

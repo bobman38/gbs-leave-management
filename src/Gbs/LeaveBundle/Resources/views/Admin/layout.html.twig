@@ -1,0 +1,20 @@
+{% extends 'SonataAdminBundle::standard_layout.html.twig' %}
+
+{% block side_bar_after_nav %}
+    <p class="text-center small" style="border-top: 1px solid #444444; padding-top: 10px">
+    <a href="{{path('home')}}" >back to site</a></p>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+        <script>
+        $(document).ready(function(){
+            $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            weekStart: 1
+          });
+        });
+          
+        </script>
+ {% endblock %}

@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bootstrap-calendar/css/calendar.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/underscore-min.js') }}"></script>
+{% endblock %}
+
+{% block body -%}
+    <h1>Working Days:</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Country</th>
+                {% for n in [-1, 0, 1]%}
+                    <th>{{gbs_leave_holiday.getGlobalWorkingDaysByMonth(n ~ ' month')}} WD</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <th>{{entity.fullName}}</th>
+                <td>{{ entity.country }}</td>
+                {% for n in [-1, 0, 1]%}
+                    <td><strong>{{gbs_leave_holiday.getWorkingDaysByMonth(entity, n ~ ' month')}}</strong>
+                    {% if entity.tr %}
+                    ({{gbs_leave_holiday.getTRByMonth(entity, n ~ ' month')}} TR)
+                    {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="2">TOTAL</th>
+                {% for n in [-1, 0, 1]%}
+                    <th>{{gbs_leave_holiday.getTRTotalByMonth(n ~ ' month')}} TR<br/>
+                    {% if gbs_leave_holiday.isNotYetSavedTR(n ~ ' month') %}
+                    <a class="btn btn-default" href="{{path('user_save_tr', {'delta': n ~ ' month'})}}">Give TR (save to DB)</button></th>
+                    {% else %}
+                        Already saved to DB
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </tfoot>
+    </table>
+    {% endblock %}

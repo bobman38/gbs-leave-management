@@ -1,0 +1,57 @@
+leave:
+    path:     /
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:index" }
+
+leave_show:
+    path:     /{id}/show
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:show" }
+
+leave_new:
+    path:     /new
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:new" }
+
+leave_create:
+    path:     /create
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:create" }
+    requirements: { _method: post }
+
+leave_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:edit" }
+
+leave_update:
+    path:     /{id}/update
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:update" }
+    requirements: { _method: post|put }
+
+leave_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:delete" }
+
+leave_validation:
+    path:   /validation
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:validationIndex"}
+
+leave_planning:
+    path:   /planning
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:planning", type:'normal'}
+
+leave_planningmax:
+    path:   /planning/max
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:planning", type:'max'}
+
+leave_askforvalidation:
+    path:   /{id}/askforvalidation
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:askForValidation"}
+
+leave_accept:
+    path:   /{id}/accept
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:accept"}
+
+leave_refuse:
+    path:   /{id}/refuse
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:refuse"}
+
+leave_acceptall:
+    path:   /{type}/acceptall
+    defaults: { _controller: "GbsLeaveBundle:EmployeeLeave:acceptAll"}

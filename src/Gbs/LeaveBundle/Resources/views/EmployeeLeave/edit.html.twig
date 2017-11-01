@@ -1,0 +1,23 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>EmployeeLeave edit</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_row(edit_form.type) }}
+        {{ form_row(edit_form.start) }}
+        {{ form_row(edit_form.end) }}
+        <div id="partday">
+        {{ form_row(edit_form.partday) }}
+        </div>
+    {{ form_end(edit_form) }}
+    <hr>
+    <div class="btn-group">
+      <a type="button" href="{{ path('leave') }}" class="btn btn-default">Back to list</a>
+      <a type="button" href="{{ path('leave_delete', {'id': entity.id}) }}" class="btn btn-default">Delete</a>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+{% include 'GbsLeaveBundle:EmployeeLeave:form_js.html.twig' %}
+{% endblock %}

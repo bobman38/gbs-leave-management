@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>User list</h1>
+    <div class="alert alert-info"><p>Don't forget to specify <strong>country</strong> and <strong>manager</strong> for each imported user via LDAP ! If not then the leaves module will not be able to work correctly (no mail sent to manager for leave validation, no bank holidays...).</p>
+        <p>User without manager have leaves automatically accepted without validation.</p></div>
+    <table class="table ">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>User</th>
+                <th>Country</th>
+                <th>Cpy / Site</th>
+                <th>Manager</th>
+                <th>TR ?</th>
+                <th>Last Medical Visit</th>
+                <th>Employee Start Date</th>
+                <th>Holiday Balance</th>
+                <th>Sick Balance</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('user_edit', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{entity }}</td>
+                <td>{{ entity.country }}</td>
+                <td>{{ entity.company }} ({{ entity.site }})</td>
+                <td>{{ entity.manager }}</td>
+                <td>{{ entity.tr?'Yes':'' }}</td>
+                <td>{{ entity.lastMedicalVisit?entity.lastMedicalVisit|date('Y-m-d')}}</td>
+                <td>{{ entity.employeeStartDate?entity.employeeStartDate|date('Y-m-d')}}</td>
+                <td><b>{{ gbs_leave_holiday.getHolidayBalanceAsOfToday(entity)}}</b> (<i>{{ gbs_leave_holiday.getHolidayBalance(entity)}}</i>)</td>
+                <td><b>{{ gbs_leave_holiday.getSickBalance(entity)}}</td>
+                <td>
+                <div class="btn-group">
+                  <a class="btn btn-default" href="{{ path('user_edit', { 'id': entity.id }) }}">edit</a>
+                </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="btn-group">
+      <a class="btn btn-default" href="{{ path('user_import') }}">Import users from LDAP</a>
+    </div>
+    {% endblock %}

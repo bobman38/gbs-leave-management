@@ -1,0 +1,8 @@
+Next medical visits to be done :
+{% for user in userToRenew %}
+* {{user.username}} (last one: {{user.lastMedicalVisit?user.lastMedicalVisit|date('Y-m-d')}})
+{% endfor %}
+
+GBS Leave Management System
+
+Lovely presented by @sidoineorg

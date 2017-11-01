@@ -1,0 +1,15 @@
+home:
+    path:     /
+    defaults: { _controller: GbsLeaveBundle:Default:index }
+
+gbs_leave:
+    resource: "@GbsLeaveBundle/Resources/config/routing/employeeleave.yml"
+    prefix:   /leave
+
+gbs_user:
+    resource: "@GbsLeaveBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+
+reset_password:
+    path:     /resetPassword
+    defaults: { _controller: GbsLeaveBundle:Password:resetPassword }

@@ -1,0 +1,13 @@
+Hi,
+
+{{leave.user.username}} is asking for the following leave:
+* Type: {{leave.typeName}}
+* From: {{leave.start|date('Y-m-d')}}
+* To: {{leave.end|date('Y-m-d')}}
+* PartDay: {{leave.partdayName}}
+
+To accept or refuse this leave, please go to {{ app.request.getSchemeAndHttpHost() ~ path('leave_show', {'id': leave.id})}}
+
+Thanks,
+
+GBS Leave Management

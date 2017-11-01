@@ -1,0 +1,43 @@
+{% include "GbsLeaveBundle:Mail:style.html.twig" %}
+<p>Hi {{manager.fullname}} !</p>
+
+<p>This month you must validate or check with your employees the following leaves. Here you have listed :</p>
+<ul>
+    <li>Paid Leave still not validated</li>
+    <li>Travelling : you must validate each travelling</li>
+</ul>
+
+<p>For information on the <a href="{{url ~ path('leave_validation')}}">validation page</a> you can validate with a single click all paid leave OR travelling.
+    This feature have been designed wih love by the Symfony dream-team in Grenoble. Yeah, thanks.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Leave Type</th>
+            <th>Leave Start</th>
+            <th>Leave End</th>
+            <th>Comment</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td colspan="5"><strong>{{user.fullName}}</strong></td>
+        </tr>
+        {% for leave in user.leaves %}
+        {% if leave.state==1 %}
+        <tr>
+            <td>&nbsp;</td>
+            <td>{{leave.typeName}}</td>
+            <td>{{leave.start|date('Y-m-d')}}</td>
+            <td>{{leave.end|date('Y-m-d')}}</td>
+            <td>{{leave.comment}}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+
+<p>GBS Leave Management System</p>

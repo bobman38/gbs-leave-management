@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}GB&Smith internal tools{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="{{ asset('css/datepicker.css') }}" type="text/css" />
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="{{path('home')}}">GB&Smith internal tools</a>
+            </div>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Leaves <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{path('leave')}}">My Leaves</a></li>
+                    <li><a href="{{path('leave_new')}}">Create new</a></li>
+                    <li><a href="{{path('leave_validation')}}">Validation</a></li>
+                    <li><a href="{{path('leave_planning')}}">Planning</a></li>
+                    <li><a href="{{path('leave_planningmax')}}">Planning Prev Month</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mail <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{path('mail_responder')}}">Responder</a></li>
+                    <li><a href="{{path('mail_forwarder')}}">Forwarder</a></li>
+                    <li><a href="{{path('mail_list')}}">Mailing List Info</a></li>
+                    <li><a href="{{path('mail_list_admin')}}">Mailing List Admin</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{path('user')}}">User List</a></li>
+                    <li><a href="{{path('user_workingdays')}}">Working Days</a></li>
+                    <li><a href="{{path('sonata_admin_dashboard')}}">Admin</a></li>
+                  </ul>
+                </li>
+              </ul>
+              {% else %}
+              <ul class="nav navbar-nav">
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reset password <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="http://resetldap.gbs/">Reset LDAP password (GBS network or VPN only)</a></li>
+                      <li><a href="http://resetzentyal.gbs:8080/">Reset ZENTYAL password (GBS network or VPN only)</a></li>
+                    </ul>
+                  </li>
+              </ul>
+              {% endif %}
+              {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ path('fos_user_security_logout') }}">Logout ({{app.user}})</a></li>
+              </ul>
+              {% endif %}
+            </div><!--/.nav-collapse -->
+          </div>
+        </div>
+
+        <div class="container">
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="alert {{ type!='warning'?'alert-success':'alert-danger' }} alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        {{ message|raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% block body %}{% endblock %}
+        </div><!-- /.container -->
+
+        {% block planning %}{% endblock %}
+        <script src="{{ asset('js/jquery.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+        <script>
+          $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            weekStart: 1
+          });
+        </script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

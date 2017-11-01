@@ -1,0 +1,48 @@
+<script>
+    $( document ).ready(function() {
+        var nowTemp = new Date();
+        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+         
+        var start = $('#leave_start').datepicker({
+            format: 'yyyy-mm-dd',
+            weekStart: 1,
+            onRender: function(date) {
+                return date.valueOf() < now.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function(ev) {
+            if (ev.date.valueOf() > end.date.valueOf()) {
+                var newDate = new Date(ev.date)
+                newDate.setDate(newDate.getDate());
+                end.setValue(newDate);
+            }
+            start.hide();
+            switchPartDay();
+            $('#leave_end')[0].focus();
+        }).data('datepicker');
+
+        var end = $('#leave_end').datepicker({
+            format: 'yyyy-mm-dd',
+            weekStart: 1,
+            onRender: function(date) {
+                return date.valueOf() < start.date.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function(ev) {
+            end.hide();
+            switchPartDay();
+        }).data('datepicker');
+
+        
+        switchPartDay();
+
+    });
+
+    function switchPartDay() {
+        if($('#leave_start').val() == $('#leave_end').val()) {
+            $('#partday').show();
+        }
+        else {
+            $('leave_partday').val(0);
+            $('#partday').hide();
+        }
+    }
+</script>
